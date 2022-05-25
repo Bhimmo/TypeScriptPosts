@@ -14,4 +14,39 @@ export default class PostsService {
         //resultados
         return save;
     }
+
+    getAllPosts() {
+        const postsRepository = new PostsRepository();
+        const postEntities = new EntitiesPosts(postsRepository);
+
+        //pegar
+        const getAll = postEntities.findAll();
+
+        return getAll;
+    }
+
+    getOnePost(id: string) {
+        const postsRepository = new PostsRepository();
+        const postEntities = new EntitiesPosts(postsRepository);
+
+        //pegar
+        const getOne = postEntities.findOne(id);
+
+        return getOne;
+    }
+
+    async likePost(id: string) {
+        const postsRepository = new PostsRepository();
+        const postEntities = new EntitiesPosts(postsRepository);
+
+        //verificar se existe post
+        const getOne: any = await postEntities.findOne(id);
+
+        if (getOne) {
+            let likes: number = getOne.likes;
+            likes += 1;
+            const postUpdate = await postEntities.likePost(id, likes);
+            return postUpdate;
+        }
+    }
 }

@@ -17,4 +17,31 @@ export class PostsRepository implements PostsInterface{
         return result;
     };
 
+    async findAll() {
+        const find = await prisma.posts.findMany();
+
+        return find;
+    }
+
+    async findOne(id: string) {
+        const find = await prisma.posts.findUnique({
+            where: {
+                id: id
+            }
+        });
+        return find;
+    }
+
+    async likePost (id: string, likes: number)  {
+        const likesUpdate = await prisma.posts.update({
+            where: {
+                id: id
+            },
+            data: {
+                likes: likes
+            }
+        });
+        return likesUpdate;
+    };
+
 }
